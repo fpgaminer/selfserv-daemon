@@ -1,0 +1,26 @@
+# Works around a current bug that results in "value too large for defined" errors when doing multi-arch builds (https://github.com/docker/buildx/issues/395)
+FROM --platform=$BUILDPLATFORM rust:latest AS sources
+
+WORKDIR /usr/src/selfserv-daemon
+RUN cargo init
+COPY Cargo.* ./
+RUN mkdir -p ./.cargo && cargo vendor > ./.cargo/config
+
+
+FROM rust:latest as builder
+
+WORKDIR /usr/src/selfserv-daemon
+COPY src ./src
+COPY Cargo.* ./
+COPY --from=sources /usr/src/selfserv-daemon/.cargo ./.cargo
+COPY --from=sources /usr/src/selfserv-daemon/vendor ./vendor
+
+RUN cargo install --offline --path .
+
+FROM debian:buster-slim
+RUN apt-get update && apt-get install -y libssl-dev ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /usr/local/cargo/bin/selfserv-daemon /usr/local/bin/selfserv-daemon
+
+LABEL org.opencontainers.image.source=https://github.com/fpgaminer/selfserv-daemon
+
+ENTRYPOINT ["selfserv-daemon"]
