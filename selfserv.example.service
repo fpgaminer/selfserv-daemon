@@ -1,0 +1,13 @@
+[Unit]
+Description=selfserv.net daemon
+After=network.target
+
+[Service]
+Type=simple
+User=user
+ExecStart=/path/to/selfserv-daemon --token /path/to/token --cert /path/to/cert --key /path/to/cert.key
+RestartSec=4
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[package]
+authors = ["fpgaminer"]
+edition = "2018"
+name = "selfserv-daemon"
+version = "0.2.0"
+
+[dependencies]
+anyhow = "1.0.40"
+reqwest = { version = "0.11.3", features = ["blocking", "json"] }
+structopt = "0.3.21"
+serde = { version = "1", features = ["derive"] }
