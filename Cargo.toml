@@ -6,7 +6,7 @@ license = "MIT"
 name = "selfserv-daemon"
 readme = "README.md"
 repository = "https://github.com/fpgaminer/selfserv-daemon"
-version = "0.2.0"
+version = "0.2.1"
 homepage = "https://github.com/fpgaminer/selfserv-daemon"
 documentation = "https://docs.rs/selfserv-daemon"
 
