@@ -1,5 +1,5 @@
 # Works around a current bug that results in "value too large for defined" errors when doing multi-arch builds (https://github.com/docker/buildx/issues/395)
-FROM --platform=$BUILDPLATFORM rust:1.62.0 AS sources
+FROM --platform=$BUILDPLATFORM rust:1.62.1 AS sources
 
 WORKDIR /usr/src/selfserv-daemon
 RUN cargo init
@@ -7,7 +7,7 @@ COPY Cargo.* ./
 RUN mkdir -p ./.cargo && cargo vendor > ./.cargo/config
 
 
-FROM rust:1.62.0 as builder
+FROM rust:1.62.1 as builder
 
 WORKDIR /usr/src/selfserv-daemon
 COPY src ./src
