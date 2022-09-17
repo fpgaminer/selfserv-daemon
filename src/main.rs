@@ -1,34 +1,35 @@
 use std::time::{Instant, Duration};
 use std::net::{UdpSocket, IpAddr, Ipv4Addr};
-use structopt::StructOpt;
+use clap::Parser;
 use serde::Deserialize;
 use std::path::PathBuf;
 use std::fs;
 use anyhow::{Context, Error};
 
 
-#[derive(StructOpt)]
+#[derive(Parser, Debug)]
+#[clap(version, about, long_about = None)]
 struct Cli {
-	#[structopt(long = "token", parse(from_os_str))]
 	/// Path to a file containing the auth_token
+	#[clap(long = "token", value_parser)]
 	auth_token_path: PathBuf,
 
-	#[structopt(long = "cert", parse(from_os_str))]
 	/// Path to save the SSL certificate to
+	#[clap(long = "cert", value_parser)]
 	cert_path: PathBuf,
 
-	#[structopt(long = "key", parse(from_os_str))]
 	/// Path to save the SSL key to
+	#[clap(long = "key", value_parser)]
 	key_path: PathBuf,
 
-	#[structopt(long = "ip")]
 	/// Use this IP address instead of automatically detecting one
+	#[clap(long = "ip", value_parser)]
 	ip_address: Option<Ipv4Addr>,
 }
 
 
 fn main() -> Result<(), Error> {
-	let args = Cli::from_args();
+	let args = Cli::parse();
 
 	let auth_token = fs::read_to_string(&args.auth_token_path).context("Unable to read auth token")?;
 	let auth_token = auth_token.trim();
