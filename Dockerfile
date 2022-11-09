@@ -1,4 +1,4 @@
-FROM rust:1.63.0 as builder
+FROM rust:1.65.0 as builder
 
 WORKDIR /usr/src/selfserv-daemon
 COPY src ./src
