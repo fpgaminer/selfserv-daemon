@@ -1,4 +1,4 @@
-FROM rust:1.77.1 as builder
+FROM rust:1.77.2-buster as builder
 
 WORKDIR /usr/src/selfserv-daemon
 COPY src ./src
