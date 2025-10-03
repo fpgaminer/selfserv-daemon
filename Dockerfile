@@ -1,4 +1,4 @@
-FROM rust:1.79.0-buster as builder
+FROM rust:1.90.0-trixie as builder
 
 WORKDIR /usr/src/selfserv-daemon
 COPY src ./src
@@ -7,7 +7,7 @@ COPY Cargo.* ./
 
 RUN cargo install --path .
 
-FROM debian:buster-slim
+FROM debian:trixie-slim
 RUN apt-get update && apt-get install -y libssl-dev ca-certificates && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /usr/local/cargo/bin/selfserv-daemon /usr/local/bin/selfserv-daemon
 
