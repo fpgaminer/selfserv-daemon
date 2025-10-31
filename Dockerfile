@@ -1,4 +1,4 @@
-FROM rust:1.90.0-trixie as builder
+FROM rust:1.91.0-trixie as builder
 
 WORKDIR /usr/src/selfserv-daemon
 COPY src ./src
